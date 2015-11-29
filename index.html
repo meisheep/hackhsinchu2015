@@ -114,6 +114,16 @@
                     </div>
                 </div>
             </div>
+            <div class="column">
+                <div class="ui fluid card">
+                    <div class="image">
+                        <img src="assets/img/health.png">
+                    </div>
+                    <div class="content">
+                        <a class="header">健康</a>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="left-arrow"></div>
         <div class="dial-1999">
@@ -503,6 +513,56 @@
         </div>
         <canvas id="financial"></canvas>
     </div>
+    <div class="hc-map">
+        <h2 class="ui center aligned header">
+            周遭設施
+        </h2>
+        <div class="overlay-iframe" onclick="style.pointerEvents=&quot;none&quot;"></div>
+        <div id="nearby"></div>
+    </div>
+    <!-- <div class="hc-elected">
+        <h2 class="ui center aligned header">
+            市府團隊
+        </h2>
+        <div class="ui three column grid">
+            <div class="column">
+                <div class="ui fluid card">
+                    <div class="image">
+                        <img src="assets/img/team1.jpg">
+                    </div>
+                    <div class="content">
+                    <div class="header">黃智堅</div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui fluid card">
+                    <div class="image">
+                        <img src="assets/img/team2.jpg">
+                    </div>
+                    <div class="content">
+                        <div class="header">李宏生</div>
+                        <div class="meta">
+                            副市長
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui fluid card">
+                    <div class="image">
+                        <img src="assets/img/team3.jpg">
+                    </div>
+                    <div class="content">
+                        <div class="header">陳章賢</div>
+                        <div class="meta">
+                            秘書長
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
     <div class="hc-faq">
         <h2 class="ui center aligned icon header">
             <i class="comments outline icon"></i>
@@ -514,16 +574,7 @@
             <div class="ui grid">
                 <div class="four wide column">
                     <div class="ui large list">
-                        <a class="item">新竹市復康巴士訂車方法</a>
-                        <a class="item">如何參加長青學苑課程</a>
-                        <a class="item">低收入戶申請資格及審核標準?</a>
-                        <a class="item">停車管理-若地址遷移無法收到催繳通知單該怎麼辦？</a>
-                        <a class="item">如何申請身心障礙者專用停車證？</a>
-                    </div>
-                </div>
-                <div class="four wide column">
-                    <div class="ui large list">
-                        <a class="item">新竹市復康巴士訂車方法</a>
+                        <a class="item" href="http://www.hccg.gov.tw/web/FAQ?command=showDetail&postId=500949&groupId=11508">新竹市復康巴士訂車方法</a>
                         <a class="item">如何參加長青學苑課程</a>
                         <a class="item">低收入戶申請資格及審核標準?</a>
                         <a class="item">停車管理-若地址遷移無法收到催繳通知單該怎麼辦？</a>
@@ -546,6 +597,15 @@
                         <a class="item">黃線可以臨時停車為何被拖吊？</a>
                         <a class="item">違規停車遭拖吊，車主已到達現場，是否應予放行？</a>
                         <a class="item">新竹市婦女生育津貼發放標準？</a>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <div class="ui large list">
+                        <a class="item">新竹市復康巴士訂車方法</a>
+                        <a class="item">如何參加長青學苑課程</a>
+                        <a class="item">低收入戶申請資格及審核標準?</a>
+                        <a class="item">停車管理-若地址遷移無法收到催繳通知單該怎麼辦？</a>
+                        <a class="item">如何申請身心障礙者專用停車證？</a>
                     </div>
                 </div>
             </div>
@@ -574,5 +634,43 @@
     <script src="semantic/dist/semantic.min.js"></script>
     <script src="node_modules/chart.js/Chart.min.js"></script>
     <script src="assets/js/index.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&sensor=false"></script>
+    <script type="text/javascript">
+        function initMap(position) {
+            var wifi = [];
+            jQuery.getJSON('datasets/wifi.json', function(data) {
+                var len = data.length;
+                for (var i = 0; i < len; i++) {
+                    wifi.push({
+                        X軸座標: data[i].緯度,
+                        Y軸座標: data[i].經度
+                    });
+                }
+
+                var map, marker;
+                var infowindow = new google.maps.InfoWindow();
+                map = new google.maps.Map(document.getElementById('nearby'), {
+                    center: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    },
+                    zoom: 18
+                });
+                var wifi_list = wifi.length;
+                for (var i = 0; i < wifi_list; i++) {
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(wifi[i].X軸座標, wifi[i].Y軸座標),
+                        map: map,
+                        icon: 'assets/img/wifi.png'
+                    });
+                }
+            });
+        }
+        $(function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(initMap);
+            }
+        });
+    </script>
 </body>
 </html>

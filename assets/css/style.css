@@ -241,7 +241,44 @@ body {
     display: inline-block;
 }
 
+.hc-map {
+}
+
+.hc-map .ui.header {
+    padding-top: 18px;
+    padding-bottom: 18px;
+    background-color: #2c3e50;
+    color: #f9f9f9;
+    margin-bottom: 0;
+}
+
+.hc-map .overlay-iframe {
+    background: transparent;
+    position: relative;
+    width: 100%;
+    height: 480px;
+    top: 480px;
+    margin-top: -480px;
+    z-index: 999;
+}
+
+#nearby {
+    height: 480px;
+}
+
+.hc-elected {
+    padding: 36px 0;
+    background-color: #fff;
+}
+/**/
+.hc-elected .ui.grid {
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+}
+
 .hc-faq {
+    box-shadow: inset 0 7px 12px rgba(0,0,0,.4);
     padding: 36px 0;
     background-color: #ffc408;
 }
